@@ -231,12 +231,18 @@ struct conv_key
 	conv_key(float c, int dc, int l1, int l2) : convergence(c), diffsCount(dc), line1(l1), line2(l2)
 	{}
 
+	// bool operator<(const conv_key& rhs) const
+	// {
+		// return ((diffsCount < rhs.diffsCount) || ((diffsCount == rhs.diffsCount) && (
+				// (convergence > rhs.convergence) || ((convergence == rhs.convergence) &&
+						// (line1 + line2 <= rhs.line1 + rhs.line2)))));
+	// }
+
 	bool operator<(const conv_key& rhs) const
 	{
-		return ((diffsCount < rhs.diffsCount) ||
-				((diffsCount == rhs.diffsCount) && (convergence > rhs.convergence)) ||
-				((diffsCount == rhs.diffsCount) && (convergence == rhs.convergence) &&
-						(line1 + line2 < rhs.line1 + rhs.line2)));
+		return ((convergence > rhs.convergence) || ((convergence == rhs.convergence) && (
+				(diffsCount < rhs.diffsCount) || ((diffsCount == rhs.diffsCount) &&
+						(line1 + line2 <= rhs.line1 + rhs.line2)))));
 	}
 };
 
@@ -631,7 +637,7 @@ bool resolveMatch(const CompareInfo& cmpInfo, diffInfo& lookupDiff, int lookupOf
 
 void findMoves(CompareInfo& cmpInfo)
 {
-	// LOGD("FIND MOVES\n");
+	LOGD("FIND MOVES\n");
 
 	bool repeat = true;
 
@@ -644,7 +650,7 @@ void findMoves(CompareInfo& cmpInfo)
 			if (lookupDiff.type != diff_type::DIFF_IN_1)
 				continue;
 
-			// LOGD("DIFF_IN_1 offset: " + std::to_string(lookupDiff.off + 1) + "\n");
+			LOGD("DIFF_IN_1 offset: " + std::to_string(lookupDiff.off + 1) + "\n");
 
 			// Go through all lookupDiff's elements and check if each is matched
 			for (int lookupEi = 0; lookupEi < lookupDiff.len; ++lookupEi)
@@ -656,7 +662,7 @@ void findMoves(CompareInfo& cmpInfo)
 					continue;
 				}
 
-				// LOGD("line offset: " + std::to_string(lookupEi) + "\n");
+				LOGD("line offset: " + std::to_string(lookupEi) + "\n");
 
 				MatchInfo mi;
 				findBestMatch(cmpInfo, lookupDiff, lookupEi, mi);
@@ -670,7 +676,7 @@ void findMoves(CompareInfo& cmpInfo)
 					else
 						--lookupEi;
 
-					// LOGD("move match found, next line offset: " + std::to_string(lookupEi + 1) + "\n");
+					LOGD("move match found, next line offset: " + std::to_string(lookupEi + 1) + "\n");
 				}
 			}
 		}
@@ -913,7 +919,8 @@ void compareLines(const DocCmpInfo& doc1, const DocCmpInfo& doc2, diffInfo& bloc
 											change.off += (*pSec1)[startMatch].pos;
 
 										change.len = (endMatch ?
-												(*pSec1)[pSec1->size() - endMatch - 1].pos + 1 + off1 : end1) - change.off;
+												(*pSec1)[pSec1->size() - endMatch - 1].pos + 1 + off1 : end1) -
+												change.off;
 
 										if (change.len > 0)
 											pBD1->info.changedLines.back().changes.emplace_back(change);
@@ -926,7 +933,8 @@ void compareLines(const DocCmpInfo& doc1, const DocCmpInfo& doc2, diffInfo& bloc
 											change.off += (*pSec2)[startMatch].pos + 1;
 
 										change.len = (endMatch ?
-												(*pSec2)[pSec2->size() - endMatch - 1].pos + 1 + off2 : end2) - change.off;
+												(*pSec2)[pSec2->size() - endMatch - 1].pos + 1 + off2 : end2) -
+												change.off;
 
 										if (change.len > 0)
 											pBD2->info.changedLines.back().changes.emplace_back(change);
