@@ -27,11 +27,11 @@ To install the plugin automatically use the Notepad++ PluginAdmin dialog (availa
 To install the plugin manually follow the instructions below based on your current Notepad++ version.
 
 7.6.3 and above:
-1. Create `ComparePlus` folder in Notepad++'s plugins installation folder (`%Notepad++_program_folder%\Plugins`).
+1. Create `ComparePlugin` folder in Notepad++'s plugins installation folder (`%Notepad++_program_folder%\Plugins`).
 2. Copy the contents of the [Latest Release](https://github.com/pnedev/compare-plugin/releases/latest) zip file
 into the newly created folder. Please use the correct archive version based on your Notepad++ architecture - x86 or x64.
-- ComparePlus.dll : The core plugin DLL.
-- ComparePlus sub-folder : Contains the libs libgit2.dll and sqlite.dll needed for the Diff against Git and SVN commands.
+- ComparePlugin.dll : The core plugin DLL.
+- ComparePlugin sub-folder : Contains the libs libgit2.dll and sqlite.dll needed for the Diff against Git and SVN commands.
 3. Restart Notepad++.
 
 Pre 7.6.0:
